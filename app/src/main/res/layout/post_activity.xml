@@ -2,8 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-            name="post"
-            type="com.example.android.hackingmvvm.model.Post" />
+            name="viewModel"
+            type="com.example.android.hackingmvvm.viewmodel.PostViewModel" />
         </data>
     <RelativeLayout
         android:layout_width="match_parent"

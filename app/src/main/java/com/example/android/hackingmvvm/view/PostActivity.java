@@ -25,6 +25,7 @@ public class PostActivity extends AppCompatActivity implements PostViewModel.Dat
         binding= DataBindingUtil.setContentView(this,R.layout.post_activity);
         mPostViewModel=new PostViewModel(this);
         mPostAdapter=new PostAdapter();
+        binding.setViewModel(mPostViewModel);
         binding.rvPost.setAdapter(mPostAdapter);
         binding.rvPost.setLayoutManager(new LinearLayoutManager(this));
     }

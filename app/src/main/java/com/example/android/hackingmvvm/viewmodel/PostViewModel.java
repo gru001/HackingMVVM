@@ -43,7 +43,7 @@ public class PostViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i(TAG, "onError: ");
+                        Log.e(TAG, "onError: ",e);
                     }
 
                     @Override

@@ -1,7 +1,14 @@
 package com.example.android.hackingmvvm.model;
 
+import com.example.android.hackingmvvm.utils.HttpLoggingInterceptor;
+
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -26,12 +33,35 @@ public interface JsonPlaceHolderService {
 
     class Factory {
         public static JsonPlaceHolderService create() {
+            OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
+            okHttpBuilder.addInterceptor(getHttpLoggingInterceptor());
+            okHttpBuilder.addInterceptor(getHeaderInterceptor());
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("https://jsonplaceholder.typicode.com/")
+                    .client(okHttpBuilder.build())
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
             return retrofit.create(JsonPlaceHolderService.class);
+        }
+
+        private static Interceptor getHeaderInterceptor() {
+            return new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request orgRequest = chain.request();
+                    final Request newRequest = orgRequest.newBuilder()
+                        /*.addHeader("token", "123456")*/
+                            .build();
+                    return chain.proceed(newRequest);
+                }
+            };
+        }
+
+        private static HttpLoggingInterceptor getHttpLoggingInterceptor() {
+            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            return httpLoggingInterceptor;
         }
     }
 }

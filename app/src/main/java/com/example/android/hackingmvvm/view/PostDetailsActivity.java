@@ -1,20 +1,45 @@
 package com.example.android.hackingmvvm.view;
 
+import android.content.Context;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.example.android.hackingmvvm.R;
+import com.example.android.hackingmvvm.databinding.PostdetailsActivityBinding;
+import com.example.android.hackingmvvm.viewmodel.PostDetailsViewModel;
 
 public class PostDetailsActivity extends AppCompatActivity {
+    private static final String EXTRA_POST_ID = "EXTRA_POST_ID";
+    private PostdetailsActivityBinding binding;
+    private PostDetailsViewModel mDetailsViewModel;
+
+    public static Intent newIntent(Context context, String postId){
+        Intent intent = new Intent(context, PostDetailsActivity.class);
+        intent.putExtra(EXTRA_POST_ID, postId);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.postdetails_activity);
+        binding = DataBindingUtil.setContentView(this,R.layout.postdetails_activity);
+        setSupportActionBar(binding.toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        String postId = getIntent().getStringExtra(EXTRA_POST_ID);
+        mDetailsViewModel = new PostDetailsViewModel(postId);
+        binding.setViewModel(mDetailsViewModel);
+
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDetailsViewModel.onDestroy();
+    }
 }
