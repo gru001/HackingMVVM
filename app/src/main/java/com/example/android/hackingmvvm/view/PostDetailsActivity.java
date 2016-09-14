@@ -12,7 +12,7 @@ import com.example.android.hackingmvvm.databinding.PostdetailsActivityBinding;
 import com.example.android.hackingmvvm.viewmodel.PostDetailsViewModel;
 
 public class PostDetailsActivity extends AppCompatActivity {
-    private static final String EXTRA_POST_ID = "EXTRA_POST_ID";
+    public static final String EXTRA_POST_ID = "EXTRA_POST_ID";
     private PostdetailsActivityBinding binding;
     private PostDetailsViewModel mDetailsViewModel;
 
@@ -26,15 +26,13 @@ public class PostDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.postdetails_activity);
-        setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        String postId = getIntent().getStringExtra(EXTRA_POST_ID);
+        String postId = String.valueOf(getIntent().getIntExtra(EXTRA_POST_ID,0));
         mDetailsViewModel = new PostDetailsViewModel(postId);
         binding.setViewModel(mDetailsViewModel);
-
     }
 
     @Override

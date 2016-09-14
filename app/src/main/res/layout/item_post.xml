@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin">
 
         <TextView
             android:id="@+id/lblPostTitle"
@@ -20,7 +21,8 @@
             android:id="@+id/lblPostBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{post.body}" />
+            android:text="@{post.body}"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </layout>
