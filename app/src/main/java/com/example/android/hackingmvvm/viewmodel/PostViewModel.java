@@ -21,7 +21,7 @@ import rx.schedulers.Schedulers;
 
 public class PostViewModel {
     private static final String TAG = PostViewModel.class.getSimpleName();
-    void loadPosts(){
+    public void loadPosts(){
         JsonPlaceHolderService.Factory.create().getAllPosts().observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<List<Post>>() {
@@ -32,7 +32,7 @@ public class PostViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i(TAG, "onCompleted: ");
+                        Log.i(TAG, "onError: ");
                     }
 
                     @Override
