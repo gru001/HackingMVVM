@@ -21,24 +21,40 @@ import rx.schedulers.Schedulers;
 
 public class PostViewModel {
     private static final String TAG = PostViewModel.class.getSimpleName();
-    public void loadPosts(){
+
+    public List<Post> mPostList;
+    private DataListener dataListener;
+
+    public PostViewModel(DataListener dataListener){
+        this.dataListener=dataListener;
+        loadPosts();
+    }
+
+    void loadPosts(){
         JsonPlaceHolderService.Factory.create().getAllPosts().observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<List<Post>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: ");
+                        if(null !=dataListener)
+                            dataListener.onPostAdded(mPostList);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i(TAG, "onError: ");
+                        Log.e(TAG, "onError: ",e);
                     }
 
                     @Override
                     public void onNext(List<Post> posts) {
-                        Log.i(TAG, "onCompleted: ");
+                        Log.i(TAG, "onNext: ");
+                        PostViewModel.this.mPostList=posts;
                     }
                 });
+    }
+
+    public interface DataListener {
+        void onPostAdded(List<Post> posts);
     }
 }
