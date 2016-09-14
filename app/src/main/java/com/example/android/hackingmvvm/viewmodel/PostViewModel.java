@@ -1,5 +1,6 @@
 package com.example.android.hackingmvvm.viewmodel;
 
+import android.databinding.ObservableBoolean;
 import android.util.Log;
 
 import com.example.android.hackingmvvm.model.JsonPlaceHolderService;
@@ -23,10 +24,12 @@ public class PostViewModel {
     private static final String TAG = PostViewModel.class.getSimpleName();
 
     public List<Post> mPostList;
+    public ObservableBoolean isDataDisplayed;
     private DataListener dataListener;
 
     public PostViewModel(DataListener dataListener){
         this.dataListener=dataListener;
+        isDataDisplayed = new ObservableBoolean();
         loadPosts();
     }
 
@@ -37,6 +40,7 @@ public class PostViewModel {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: ");
+                        isDataDisplayed.set(true);
                         if(null !=dataListener)
                             dataListener.onPostAdded(mPostList);
                     }
@@ -44,11 +48,13 @@ public class PostViewModel {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: ",e);
+                        isDataDisplayed.set(true);
                     }
 
                     @Override
                     public void onNext(List<Post> posts) {
                         Log.i(TAG, "onNext: ");
+                        isDataDisplayed.set(true);
                         PostViewModel.this.mPostList=posts;
                     }
                 });
