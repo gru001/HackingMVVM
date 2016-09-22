@@ -25,9 +25,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     // Support libraries
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     // reactive extensions
     compile "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
     //retrofit
@@ -40,5 +40,4 @@ dependencies {
     })
     // Dependencies for local unit tests
     testCompile "junit:junit:$rootProject.ext.junitVersion"
-    compile 'com.android.support:design:24.2.0'
 }
